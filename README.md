@@ -27,7 +27,7 @@ ZONE=us-central1-a # change as needed
 
 
 ```console
-~$ cd <LAB_NAME>
+~$ cd <LAB_NAME>/terraform
 # e.g. where <LAB_NAME> is 01-data-engineering, 02-ml or 03-mlops
 ~$ ./local_project_launcher.sh ${GOOGLE_CLOUD_PROJECT} ${REGION} ${ZONE} ${ACCOUNT}
 ```
