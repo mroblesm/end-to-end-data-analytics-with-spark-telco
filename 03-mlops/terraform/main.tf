@@ -755,7 +755,7 @@ Create Docker Container image for Serverless Spark
 resource "null_resource" "custom_container_image_creation" {
   provisioner "local-exec" {
     interpreter = ["bash", "-exc"]
-    command     = "source /root/google-cloud-sdk/path.bash.inc; chmod +x ${path.module}/scripts-hydrated/build-container-image.sh; ${path.module}/scripts-hydrated/build-container-image.sh ${local.SPARK_CONTAINER_IMG_TAG} ${local.bq_connector_jar_gcs_uri} ${local.location}"
+    command     = "chmod +x ${path.module}/scripts-hydrated/build-container-image.sh; ${path.module}/scripts-hydrated/build-container-image.sh ${local.SPARK_CONTAINER_IMG_TAG} ${local.location}"
   
   }
   triggers = {
@@ -775,7 +775,7 @@ resource "null_resource" "custom_container_image_creation" {
 resource "null_resource" "serving_container_image_creation" {
     provisioner "local-exec" {
       interpreter = ["bash", "-exc"]
-        command     = "source /root/google-cloud-sdk/path.bash.inc; chmod +x ${path.module}/scripts-hydrated/build-serving-image.sh; ${path.module}/scripts-hydrated/build-serving-image.sh  ${local.location}"
+        command     = "chmod +x ${path.module}/scripts-hydrated/build-serving-image.sh; ${path.module}/scripts-hydrated/build-serving-image.sh  ${local.location}"
   
     }
     triggers = {

@@ -1,0 +1,5 @@
+google-cloud-aiplatform<2
+kfp<2
+google-cloud-pipeline-components<2
+protobuf==4.*
+requests-toolbelt<1

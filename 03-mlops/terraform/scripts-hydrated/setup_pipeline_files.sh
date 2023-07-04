@@ -28,6 +28,9 @@ ERROR_EXIT=1
 MLOPS_DIR="mlops"
 PROJECT_ID=`"${GCLOUD_BIN}" config list --format "value(core.project)" 2>/dev/null`
 REGION=`"${GCLOUD_BIN}" compute project-info describe --project ${PROJECT_ID} --format "value(commonInstanceMetadata.google-compute-default-region)" 2>/dev/null`
+if [[ "${REGION}" == "" ]]; then
+  REGION="us-central1"
+fi
 BUCKET_NAME="s8s_code_bucket-${PROJECT_ID}"
 BUCKET_URI="gs://${BUCKET_NAME}"
 
@@ -46,10 +49,10 @@ if [ ! "${?}" -eq 0 ]; then
         exit ${ERROR_EXIT}
 fi
 
-"${GSUTIL_BIN}" cp ${BUCKET_URI}/requirements.txt "${MLOPS_DIR}"
+"${GSUTIL_BIN}" cp ${BUCKET_URI}/requirements*.txt "${MLOPS_DIR}"
 if [ ! "${?}" -eq 0 ]; then
         LOG_DATE=`date`
-        echo "Unable to copy requirements file .."
+        echo "Unable to copy requirements files .."
         exit ${ERROR_EXIT}
 fi
 

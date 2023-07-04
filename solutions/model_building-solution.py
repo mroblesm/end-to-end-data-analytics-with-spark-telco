@@ -174,6 +174,9 @@ def fnMain(logger, args):
                                         .withColumn("pipeline_execution_dt", lit(pipelineExecutionDt)) \
                                         .withColumn("operation", lit(operation)) 
 
+        persistPredictionsDF = persistPredictionsDF.drop(*[f"{a}classVec" for a in CATEGORICAL_COLUMN_LIST]) \
+                                                   .drop(*['features', 'rawPrediction', 'probability'])
+
         persistPredictionsDF.write.format('bigquery') \
         .mode("append")\
         .option('table', bigQueryModelTestResultsTableFQN) \

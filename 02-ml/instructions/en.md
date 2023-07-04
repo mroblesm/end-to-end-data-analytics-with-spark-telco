@@ -105,7 +105,7 @@ Follow this sequence:
 
 Paste the value:
 
-`spark.jars.packages=com.google.cloud.spark:spark-bigquery-with-dependencies_2.12:0.25.2`
+`spark.jars.packages=com.google.cloud.spark:spark-bigquery-with-dependencies_2.13:0.31.1`
 
 2. You will see a pre-created notebook called `lab02-model_training.ipnby`, open it with the newly created Spark Serverless kernel
 3. Complete the notebooks cells where input code is required

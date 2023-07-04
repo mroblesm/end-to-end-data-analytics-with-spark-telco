@@ -45,7 +45,6 @@ mnb_server_nm               = "s8s-spark-ml-interactive-nb-server"
 CLOUD_COMPOSER2_IMG_VERSION = "composer-2.0.11-airflow-2.2.3"
 SPARK_CONTAINER_IMG_TAG     = "1.0.0"
 dpms_nm                     = "s8s-dpms-${local.project_id}"
-bq_connector_jar_gcs_uri    = "gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.22.2.jar"
 cloud_scheduler_timezone    = "America/Chicago"
 is_out_qwiklabs             = true
 }
@@ -820,7 +819,7 @@ Create Docker Container image for Serverless Spark
 resource "null_resource" "custom_container_image_creation" {
   provisioner "local-exec" {
     interpreter = ["bash", "-exc"]
-    command     = "source /root/google-cloud-sdk/path.bash.inc; chmod +x ${path.module}/scripts-hydrated/build-container-image.sh; ${path.module}/scripts-hydrated/build-container-image.sh ${local.SPARK_CONTAINER_IMG_TAG} ${local.bq_connector_jar_gcs_uri} ${local.location}"
+    command     = "chmod +x ${path.module}/scripts-hydrated/build-container-image.sh; ${path.module}/scripts-hydrated/build-container-image.sh ${local.SPARK_CONTAINER_IMG_TAG} ${local.location}"
   
   }
   triggers = {

@@ -112,15 +112,16 @@ def fnSparkMlopsPipeline(
     trainSparkMLModelStep = _______INSERT_CODE_HERE_______(
         project = project_id,
         location = location,
+        runtime_config_version = "1.1",
         container_image = container_image,
         subnetwork_uri = subnetwork_uri,
         spark_history_dataproc_cluster = spark_phs_nm,
         service_account = service_account,     
         batch_id = model_training_pyspark_batch_id,
         main_python_file_uri = model_training_main_py_fqn,
-        jar_file_uris = ["gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.22.2.jar"],
+        jar_file_uris = ["gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.13-0.31.1.jar"],
         runtime_config_properties = {
-    "spark.jars.packages": "ml.combust.mleap:mleap-spark-base_2.12:0.20.0,ml.combust.mleap:mleap-spark_2.12:0.20.0"
+    "spark.jars.packages": "ml.combust.mleap:mleap-spark-base_2.12:0.23.0,ml.combust.mleap:mleap-spark_2.12:0.23.0"
 },
         args = model_training_args
     ).after(_______INSERT_CODE_HERE_______).set_display_name("Model training")
@@ -231,7 +232,7 @@ def fnMain(logger, args):
                 'model_training_args': ['--pipelineID={}'.format(pipelineID),'--projectID={}'.format(projectID), '--projectNbr={}'.format(projectNbr), '--displayPrintStatements={}'.format(True)],
                 'threshold': 0.6,
                 'deploy_model': True,
-                'model_artifact_uri': 'gs://s8s_model_bucket-{}/customer-churn-model/training/{}/bundle/'.format(projectNbr,pipelineID),
+                'model_artifact_uri': 'gs://s8s_model_bucket-{}/customer-churn-model/training/{}/bundle/'.format(projectID,pipelineID),
                 'serving_image_uri' : '{}-docker.pkg.dev/{}/s8s-spark-{}/spark_ml_serving:latest'.format(gcpRegion,projectID,projectNbr)
                 },
             enable_caching=_______INSERT_CODE_HERE_______,

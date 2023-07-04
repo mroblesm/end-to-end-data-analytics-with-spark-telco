@@ -32,6 +32,9 @@ fi
 
 PROJECT_ID=`"${GCLOUD_BIN}" config list --format "value(core.project)" 2>/dev/null`
 GCP_REGION=`"${GCLOUD_BIN}" compute project-info describe --project ${PROJECT_ID} --format "value(commonInstanceMetadata.google-compute-default-region)" 2>/dev/null`
+if [[ "${GCP_REGION}" == "" ]]; then
+  GCP_REGION="us-central1"
+fi
 
 echo "PROJECT_ID : ${PROJECT_ID}"
 MODEL_NAME="pyspark-customer-churn-RF"
@@ -42,9 +45,10 @@ ENDPOINT_ID=`"${GCLOUD_BIN}" ai endpoints list \
               --format='value(name)'`
 echo "ENDPOINT_ID : ${ENDPOINT_ID}"
 
+rm -rf local_test_env
 ${PYTHON_BIN} -m venv local_test_env
 source local_test_env/bin/activate
-${PIP_BIN} install -r requirements.txt
+${PIP_BIN} install -r requirements_launch_get_predictions.txt
 ${PYTHON_BIN} get_predictions.py --projectID ${PROJECT_ID} --endpointID ${ENDPOINT_ID} --location ${GCP_REGION}
 
 
