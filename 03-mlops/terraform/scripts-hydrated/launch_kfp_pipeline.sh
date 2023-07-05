@@ -38,6 +38,9 @@ echo "PROJECT_ID : ${PROJECT_ID}"
 PROJECT_NBR=`"${GCLOUD_BIN}" projects describe ${PROJECT_ID} | grep projectNumber | cut -d':' -f2 |  tr -d "'" | xargs`
 echo "PROJECT_NBR : ${PROJECT_NBR}"
 GCP_REGION=`"${GCLOUD_BIN}" compute project-info describe --project ${PROJECT_ID} --format "value(commonInstanceMetadata.google-compute-default-region)" 2>/dev/null`
+if [[ "${GCP_REGION}" == "" ]]; then
+  GCP_REGION="us-central1"
+fi
 echo "GCP_REGION : ${GCP_REGION}"
 
 LOG_DATE=`date`
@@ -50,7 +53,8 @@ LOG_DATE=`date`
 echo "###########################################################################################"
 echo "${LOG_DATE}  SPARK Hackfest - calling KFP pipeline  .."
 
+rm -rf local_test_env
 ${PYTHON_BIN} -m venv local_test_env
 source local_test_env/bin/activate
-${PIP_BIN} install -r requirements.txt
+${PIP_BIN} install -r requirements_launch_kfp_pipeline.txt
 ${PYTHON_BIN} kfp_pipeline.py --pipelineID ${PIPELINE_ID}  --projectNbr ${PROJECT_NBR} --gcpRegion ${GCP_REGION} --projectID ${PROJECT_ID}
